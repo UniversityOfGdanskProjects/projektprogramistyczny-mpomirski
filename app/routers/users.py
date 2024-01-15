@@ -42,8 +42,11 @@ async def create_user(user: CreateUserModel):
 async def update_user(user_id: ObjectIdField, user: UserModel):
     users_col = await MongoDB.get_db()
     users_col = users_col['users']
-    result = await users_col.update_one({'_id': user_id}, {'$set': user.model_dump()})
-    return result
+    result = await users_col.replace_one({'_id': user_id}, user.model_dump())
+    if result:
+        updated_user = await users_col.find_one({'_id': user_id})
+        return updated_user
+    raise HTTPException(status_code=404, detail='User not found')
 
 
 @router.delete('/users/{user_id}')
