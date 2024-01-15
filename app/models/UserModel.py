@@ -10,6 +10,7 @@ class UserModel(BaseModel):
     password: str
     registration_date: datetime
     channels: list[ObjectIdField] = Field(default_factory=list)
+    calls: list[ObjectIdField] = Field(default_factory=list)
 
 
 class CreateUserModel(BaseModel):
