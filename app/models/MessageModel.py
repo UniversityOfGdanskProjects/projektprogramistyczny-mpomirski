@@ -4,15 +4,15 @@ from datetime import datetime
 
 
 class MessageModel(BaseModel):
-    id: ObjectIdField = Field(alias='_id')
-    author: ObjectIdField
+    id: ObjectIdField | str = Field(alias='_id')
+    author: ObjectIdField | str
     text: str
     timestamp: datetime
-    files: list[ObjectIdField] = Field(default_factory=list)
+    files: list[ObjectIdField] | list[str] = Field(default_factory=list)
 
 
 class CreateMessageModel(BaseModel):
-    author: ObjectIdField
+    author: ObjectIdField | str
     text: str
     timestamp: datetime = Field(default_factory=datetime.now)
-    files: list[ObjectIdField] = Field(default_factory=list)
+    files: list[ObjectIdField] | list[str] = Field(default_factory=list)

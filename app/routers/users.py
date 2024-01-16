@@ -33,7 +33,11 @@ async def get_user(user_id: ObjectIdField):
 async def create_user(user: CreateUserModel):
     database = await MongoDB.get_db()
     database = database['users']
-    result = await database.insert_one(user.model_dump())
+    try:
+        result = await database.insert_one(user.model_dump())
+    except Exception as e:
+        raise HTTPException(
+            status_code=400, detail="User with this email already exists")
     new_user = await database.find_one({'_id': result.inserted_id})
     return new_user
 

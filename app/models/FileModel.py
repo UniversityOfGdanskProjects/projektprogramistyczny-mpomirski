@@ -4,13 +4,13 @@ from datetime import datetime
 
 
 class FileModel(BaseModel):
-    id: ObjectIdField = Field(alias='_id')
-    author: ObjectIdField
+    id: ObjectIdField | str = Field(alias='_id')
+    author: ObjectIdField | str
     file: Base64Bytes
     timestamp: datetime
 
 
 class CreateFileModel(BaseModel):
-    author: ObjectIdField
+    author: ObjectIdField | str
     file: Base64Bytes
     timestamp: datetime = Field(default_factory=datetime.now)

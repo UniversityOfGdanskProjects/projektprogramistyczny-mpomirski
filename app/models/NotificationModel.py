@@ -5,15 +5,15 @@ from bson import Binary
 
 
 class NotificationModel(BaseModel):
-    id: ObjectIdField = Field(alias='_id')
-    recipient: ObjectIdField
+    id: ObjectIdField | str = Field(alias='_id')
+    recipient: ObjectIdField | str
     text: str
     timestamp: datetime
     read: bool = False
 
 
 class CreateNotificationModel(BaseModel):
-    recipient: ObjectIdField
+    recipient: ObjectIdField | str
     text: str
     timestamp: datetime = Field(default_factory=datetime.now)
     read: bool = False

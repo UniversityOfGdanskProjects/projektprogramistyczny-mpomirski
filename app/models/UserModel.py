@@ -4,13 +4,13 @@ from pydantic_mongo.fields import ObjectIdField
 
 
 class UserModel(BaseModel):
-    id: ObjectIdField = Field(alias='_id')
+    id: ObjectIdField | str = Field(alias='_id')
     username: str
     email: EmailStr
     password: str
     registration_date: datetime
-    channels: list[ObjectIdField] = Field(default_factory=list)
-    calls: list[ObjectIdField] = Field(default_factory=list)
+    channels: list[ObjectIdField] | list[str] = Field(default_factory=list)
+    calls: list[ObjectIdField] | list[str] = Field(default_factory=list)
 
 
 class CreateUserModel(BaseModel):
