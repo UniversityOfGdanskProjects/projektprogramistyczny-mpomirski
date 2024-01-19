@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "bce555e3-467d-4611-bfe4-1a1c9c0e92b2",
+		"name": "Test Users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31109286",
+		"_collection_link": "https://orange-firefly-704518.postman.co/workspace/orange-firefly-704518-Workspace~a44fd3f1-63f3-4858-858e-795ae7a5446f/collection/31109286-bce555e3-467d-4611-bfe4-1a1c9c0e92b2?action=share&source=collection_link&creator=31109286"
+	},
+	"item": [
+		{
+			"name": "GET Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/users/",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/users/65a4676efc13ae7e58fa20c5",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"users",
+						"65a4676efc13ae7e58fa20c5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"testing123\",\r\n    \"email\": \"testing@google.edu\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/users/",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/users/65aacee184aa245b4a4378af",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"users",
+						"65aacee184aa245b4a4378af"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"65a4676efc13ae7e58fa20c5\",\r\n    \"username\": \"tcuppleditch4\",\r\n    \"email\": \"breames4@blog.com\",\r\n    \"password\": \"$2a$04$Um/lzVZulahYP8c4pz2MH.rc6U9id2Fzek2toBEKhhI2Nb.t8cY5G\",\r\n    \"registration_date\": \"2023-05-28T05:48:26\",\r\n    \"channels\": [\r\n        \"65a4676efc13ae7e58fa20c6\"\r\n    ],\r\n    \"calls\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/users/65a4676efc13ae7e58fa20c5",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"users",
+						"65a4676efc13ae7e58fa20c5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

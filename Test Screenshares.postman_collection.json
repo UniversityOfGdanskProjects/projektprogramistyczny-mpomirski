@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "286e2437-e74a-4a44-971c-ed25ab4f198a",
+		"name": "Test Screenshares",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31109286",
+		"_collection_link": "https://orange-firefly-704518.postman.co/workspace/orange-firefly-704518-Workspace~a44fd3f1-63f3-4858-858e-795ae7a5446f/collection/31109286-286e2437-e74a-4a44-971c-ed25ab4f198a?action=share&source=collection_link&creator=31109286"
+	},
+	"item": [
+		{
+			"name": "GET Screenshares",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/screenshares/",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"screenshares",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one screenshare",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/screenshares/65a579349fb31f6f52e7a7c7",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"screenshares",
+						"65a579349fb31f6f52e7a7c7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new screenshare",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"members\": [\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/screenshares/",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"screenshares",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete screenshare",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/screenshares/65aad16084aa245b4a4378b3",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"screenshares",
+						"65aad16084aa245b4a4378b3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify screenshare",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"65a579349fb31f6f52e7a7c7\",\r\n    \"members\": [\r\n        \"65a579349fb31f6f52e7a7c6\",\r\n        \"65a579349fb31f6f52e7a7c5\"\r\n    ],\r\n    \"timestamp\": \"2024-01-15T19:28:04.641000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/screenshares/65a579349fb31f6f52e7a7c7",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"screenshares",
+						"65a579349fb31f6f52e7a7c7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

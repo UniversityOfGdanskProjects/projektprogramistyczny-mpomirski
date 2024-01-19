@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "847a1fed-1525-4aa5-8d79-8b56b7dbff09",
+		"name": "Test Channels",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31109286",
+		"_collection_link": "https://orange-firefly-704518.postman.co/workspace/orange-firefly-704518-Workspace~a44fd3f1-63f3-4858-858e-795ae7a5446f/collection/31109286-847a1fed-1525-4aa5-8d79-8b56b7dbff09?action=share&source=collection_link&creator=31109286"
+	},
+	"item": [
+		{
+			"name": "GET Channels",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/channels/",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"channels",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one channel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/channels/65a4375cfc13ae293dfa2227",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"channels",
+						"65a4375cfc13ae293dfa2227"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new channel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"channel_name\": \"Cork Oak\",\r\n    \"owner\": \"65a4375cfc13ae293dfa2228\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/channels/",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"channels",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete channel",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/channels/65aacf8a84aa245b4a4378b0",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"channels",
+						"65aacf8a84aa245b4a4378b0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify channel",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"65a4375cfc13ae293dfa2227\",\r\n    \"channel_name\": \"Cork Oak2\",\r\n    \"owner\": \"65a4375cfc13ae293dfa2228\",\r\n    \"members\": [\r\n        \"65a4375cfc13ae293dfa2229\",\r\n        \"65a4375cfc13ae293dfa222a\",\r\n        \"65a4375cfc13ae293dfa222b\",\r\n        \"65a4375cfc13ae293dfa222c\",\r\n        \"65a4375cfc13ae293dfa222d\",\r\n        \"65a4375cfc13ae293dfa222e\",\r\n        \"65a4375cfc13ae293dfa222f\",\r\n        \"65a4375cfc13ae293dfa2230\",\r\n        \"65a4375cfc13ae293dfa2231\",\r\n        \"65a4375cfc13ae293dfa2232\"\r\n    ],\r\n    \"messages\": [\r\n        \"65a4375cfc13ae293dfa2233\",\r\n        \"65a4375cfc13ae293dfa2234\",\r\n        \"65a4375cfc13ae293dfa2235\",\r\n        \"65a4375cfc13ae293dfa2236\",\r\n        \"65a4375cfc13ae293dfa2237\",\r\n        \"65a4375cfc13ae293dfa2238\",\r\n        \"65a4375cfc13ae293dfa2239\",\r\n        \"65a4375cfc13ae293dfa223a\",\r\n        \"65a4375cfc13ae293dfa223b\",\r\n        \"65a4375cfc13ae293dfa223c\",\r\n        \"65a4375cfc13ae293dfa223d\",\r\n        \"65a4375cfc13ae293dfa223e\",\r\n        \"65a4375cfc13ae293dfa223f\",\r\n        \"65a4375cfc13ae293dfa2240\",\r\n        \"65a4375cfc13ae293dfa2241\",\r\n        \"65a4375cfc13ae293dfa2242\",\r\n        \"65a4375cfc13ae293dfa2243\",\r\n        \"65a4375cfc13ae293dfa2244\",\r\n        \"65a4375cfc13ae293dfa2245\",\r\n        \"65a4375cfc13ae293dfa2246\",\r\n        \"65a4375cfc13ae293dfa2247\",\r\n        \"65a4375cfc13ae293dfa2248\",\r\n        \"65a4375cfc13ae293dfa2249\",\r\n        \"65a4375cfc13ae293dfa224a\",\r\n        \"65a4375cfc13ae293dfa224b\",\r\n        \"65a4375cfc13ae293dfa224c\",\r\n        \"65a4375cfc13ae293dfa224d\",\r\n        \"65a4375cfc13ae293dfa224e\",\r\n        \"65a4375cfc13ae293dfa224f\",\r\n        \"65a4375cfc13ae293dfa2250\",\r\n        \"65a4375cfc13ae293dfa2251\",\r\n        \"65a4375cfc13ae293dfa2252\",\r\n        \"65a4375cfc13ae293dfa2253\",\r\n        \"65a4375cfc13ae293dfa2254\",\r\n        \"65a4375cfc13ae293dfa2255\",\r\n        \"65a4375cfc13ae293dfa2256\",\r\n        \"65a4375cfc13ae293dfa2257\",\r\n        \"65a4375cfc13ae293dfa2258\",\r\n        \"65a4375cfc13ae293dfa2259\",\r\n        \"65a4375cfc13ae293dfa225a\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/channels/65a4375cfc13ae293dfa2227",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"channels",
+						"65a4375cfc13ae293dfa2227"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

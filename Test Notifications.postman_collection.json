@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "fd18bae7-3597-4bbd-856e-2cdc97bcf78a",
+		"name": "Test Notifications",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31109286",
+		"_collection_link": "https://orange-firefly-704518.postman.co/workspace/orange-firefly-704518-Workspace~a44fd3f1-63f3-4858-858e-795ae7a5446f/collection/31109286-fd18bae7-3597-4bbd-856e-2cdc97bcf78a?action=share&source=collection_link&creator=31109286"
+	},
+	"item": [
+		{
+			"name": "Get notifications",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Modify notification",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"65aab8af797bb299d301e10e\",\r\n    \"recipient\": \"65aaac69d710fff92594c003\",\r\n    \"text\": \"aaaa\",\r\n    \"timestamp\": \"2023-05-28T05:48:26\",\r\n    \"read\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://mpomirski.pl/app/2/notifications/65aab8af797bb299d301e10e",
+					"protocol": "https",
+					"host": [
+						"mpomirski",
+						"pl"
+					],
+					"path": [
+						"app",
+						"2",
+						"notifications",
+						"65aab8af797bb299d301e10e"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
