@@ -1,59 +1,108 @@
-from gettext import find
-from fastapi import APIRouter, HTTPException, Response, Depends, Security
-
-from pydantic_mongo.fields import ObjectIdField
-from models.UserModel import CreateUserModel
-from utils.security import hash_password, verify_password
-from fastapi_jwt import JwtAccessBearerCookie, JwtAuthorizationCredentials, JwtRefreshBearer
-from typing import List
+from datetime import timedelta, datetime, timezone
+import re
+from fastapi import APIRouter, FastAPI, HTTPException, Depends, Response, status
+from fastapi.responses import RedirectResponse
+from pydantic import BaseModel
+from models.UserModel import UserModel
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from passlib.context import CryptContext
+from typing import Annotated
+from jose import JWTError, jwt
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/auth', tags=['Auth'])
+SECRET_KEY = 'secret'
+ALGORITHM = 'HS256'
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
 
-# change the secret key
-access_security = JwtAccessBearerCookie(secret_key='secret', auto_error=True)
-refresh_security = JwtRefreshBearer(secret_key='secret', auto_error=True)
+
+class Token(BaseModel):
+    access_token: str
+    access_type: str
 
 
-@router.post('/auth/register', status_code=201)
-async def register_user(user: CreateUserModel):
+class TokenData(BaseModel):
+    username: str | None = None
+
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/token')
+
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
+
+
+async def authenticate_user(username: str, password: str):
     database = await MongoDB.get_db()
     database = database['users']
-    find_user = await database.find_one({'email': user.email})
-    if find_user:
-        raise HTTPException(status_code=409, detail='User already exists')
-    user.password = hash_password(user.password)
-    new_user = await database.insert_one(user.model_dump())
-    if new_user:
-        return user
-    raise HTTPException(status_code=400, detail='User not created')
-
-
-@router.post('/auth/login')
-async def login_user(user: CreateUserModel, response: Response):
-    database = await MongoDB.get_db()
-    database = database['users']
-    find_user = await database.find_one({'email': user.email})
+    find_user = await database.find_one({'username': username})
     if not find_user:
-        raise HTTPException(status_code=404, detail='User not found')
-    if not verify_password(user.password, find_user['password']):
+        return False
+    if not verify_password(password, find_user['password']):
+        return False
+    return find_user
+
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+    to_encode.update({'exp': expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str | None = payload.get('sub')
+        if username is None:
+            raise credentials_exception
+        token_data = TokenData(username=username)
+    except JWTError:
+        raise credentials_exception
+    database = await MongoDB.get_db()
+    database = database['users']
+    user = await database.find_one({'username': token_data.username})
+    if user is None:
+        raise credentials_exception
+    return user
+
+
+@router.post('/token')
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
+    user = await authenticate_user(form_data.username, form_data.password)
+    if not user:
         raise HTTPException(
-            status_code=401, detail='Invalid email or password')
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
-    access_token = access_security.create_access_token(
-        subject=({"_id": str(find_user['_id'])}))
-    refresh_token = refresh_security.create_refresh_token(
-        subject=({"_id": str(find_user['_id'])}))
-
-    access_security.set_access_cookie(response, access_token)
-    response.co()
-    refresh_security.set_refresh_cookie(response, refresh_token)
-
-    return {'status': 'success', 'access_token': access_token, 'refresh_token': refresh_token}
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user['username']}, expires_delta=access_token_expires)
+    return Token(access_token=access_token, access_type='bearer')
 
 
-@router.get('/auth/logout')
-async def logout_user(response: Response):
-    access_security.unset_access_cookie(response)
-    refresh_security.unset_refresh_cookie(response)
-    return {'status': 'success', 'message': 'Logged out'}
+@router.get('/me', response_model=UserModel)
+async def read_users_me(current_user: UserModel = Depends(get_current_user)):
+    return current_user
+
+
+@router.get('/logout')
+async def logout(current_user: UserModel = Depends(get_current_user)):
+    return RedirectResponse(url='/auth/login', status_code=302)
