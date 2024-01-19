@@ -1,6 +1,5 @@
 from datetime import timedelta, datetime, timezone
-import re
-from fastapi import APIRouter, FastAPI, HTTPException, Depends, Response, status
+from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from models.UserModel import UserModel
@@ -11,7 +10,7 @@ from jose import JWTError, jwt
 from db.mongodb import MongoDB
 
 router = APIRouter(prefix='/auth', tags=['Auth'])
-SECRET_KEY = 'secret'
+SECRET_KEY = 'b018dbf07f2209c1fc63e140f635ea3b'
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')

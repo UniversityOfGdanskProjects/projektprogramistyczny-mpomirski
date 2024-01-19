@@ -4,10 +4,10 @@ from pydantic_mongo.fields import ObjectIdField
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/messages', tags=['Messages'])
 
 
-@router.get('/messages', response_model=List[MessageModel])
+@router.get('/', response_model=List[MessageModel])
 async def get_all_messages():
     database = await MongoDB.get_db()
     database = database['messages']
@@ -19,7 +19,7 @@ async def get_all_messages():
     raise HTTPException(status_code=404, detail='No messages found')
 
 
-@router.get('/messages/{message_id}', response_model=MessageModel)
+@router.get('/{message_id}', response_model=MessageModel)
 async def get_message(message_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['messages']
@@ -29,7 +29,7 @@ async def get_message(message_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='Message not found')
 
 
-@router.post('/messages', response_model=MessageModel)
+@router.post('/', response_model=MessageModel)
 async def create_message(message: CreateMessageModel):
     database = await MongoDB.get_db()
     database = database['messages']
@@ -38,7 +38,7 @@ async def create_message(message: CreateMessageModel):
     return new_message
 
 
-@router.put('/messages/{message_id}', response_model=MessageModel)
+@router.put('/{message_id}', response_model=MessageModel)
 async def update_message(message_id: ObjectIdField, message: MessageModel):
     database = await MongoDB.get_db()
     database = database['messages']
@@ -49,7 +49,7 @@ async def update_message(message_id: ObjectIdField, message: MessageModel):
     raise HTTPException(status_code=404, detail='Message not found')
 
 
-@router.delete('/messages/{message_id}')
+@router.delete('/{message_id}')
 async def delete_message(message_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['messages']

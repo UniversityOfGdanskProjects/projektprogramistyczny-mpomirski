@@ -4,10 +4,10 @@ from pydantic_mongo.fields import ObjectIdField
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/channels', tags=['Channels'])
 
 
-@router.get('/channels', response_model=List[ChannelModel])
+@router.get('/', response_model=List[ChannelModel])
 async def get_all_channels():
     database = await MongoDB.get_db()
     database = database['channels']
@@ -19,7 +19,7 @@ async def get_all_channels():
     raise HTTPException(status_code=404, detail='No channels found')
 
 
-@router.get('/channels/{channel_id}', response_model=ChannelModel)
+@router.get('/{channel_id}', response_model=ChannelModel)
 async def get_channel(channel_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['channels']
@@ -29,7 +29,7 @@ async def get_channel(channel_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='Channel not found')
 
 
-@router.post('/channels', response_model=ChannelModel)
+@router.post('/', response_model=ChannelModel)
 async def create_channel(channel: CreateChannelModel):
     database = await MongoDB.get_db()
     database = database['channels']
@@ -38,7 +38,7 @@ async def create_channel(channel: CreateChannelModel):
     return new_channel
 
 
-@router.put('/channels/{channel_id}', response_model=ChannelModel)
+@router.put('/{channel_id}', response_model=ChannelModel)
 async def update_channel(channel_id: ObjectIdField, channel: ChannelModel):
     database = await MongoDB.get_db()
     database = database['channels']
@@ -49,7 +49,7 @@ async def update_channel(channel_id: ObjectIdField, channel: ChannelModel):
     raise HTTPException(status_code=404, detail='Channel not found')
 
 
-@router.delete('/channels/{channel_id}')
+@router.delete('/{channel_id}')
 async def delete_channel(channel_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['channels']

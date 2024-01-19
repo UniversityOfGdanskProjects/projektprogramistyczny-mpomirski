@@ -4,10 +4,10 @@ from pydantic_mongo.fields import ObjectIdField
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/calls', tags=['Calls'])
 
 
-@router.get('/calls', response_model=List[CallModel])
+@router.get('/', response_model=List[CallModel])
 async def get_all_calls():
     database = await MongoDB.get_db()
     database = database['calls']
@@ -19,7 +19,7 @@ async def get_all_calls():
     raise HTTPException(status_code=404, detail='No calls found')
 
 
-@router.get('/calls/{call_id}', response_model=CallModel)
+@router.get('/{call_id}', response_model=CallModel)
 async def get_call(call_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['calls']
@@ -29,7 +29,7 @@ async def get_call(call_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='Call not found')
 
 
-@router.post('/calls', response_model=CallModel)
+@router.post('/', response_model=CallModel)
 async def create_call(call: CreateCallModel):
     database = await MongoDB.get_db()
     database = database['calls']
@@ -38,7 +38,7 @@ async def create_call(call: CreateCallModel):
     return new_call
 
 
-@router.put('/calls/{call_id}', response_model=CallModel)
+@router.put('/{call_id}', response_model=CallModel)
 async def update_call(call_id: ObjectIdField, call: CallModel):
     database = await MongoDB.get_db()
     database = database['calls']
@@ -49,7 +49,7 @@ async def update_call(call_id: ObjectIdField, call: CallModel):
     raise HTTPException(status_code=404, detail='Call not found')
 
 
-@router.delete('/calls/{call_id}')
+@router.delete('/{call_id}')
 async def delete_call(call_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['calls']

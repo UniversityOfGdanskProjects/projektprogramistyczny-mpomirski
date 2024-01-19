@@ -5,10 +5,10 @@ from .auth import get_password_hash
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/users', tags=['Users'])
 
 
-@router.get('/users', response_model=List[UserModel])
+@router.get('/', response_model=List[UserModel])
 async def get_all_users():
     database = await MongoDB.get_db()
     database = database['users']
@@ -20,7 +20,7 @@ async def get_all_users():
     raise HTTPException(status_code=404, detail='No users found')
 
 
-@router.get('/users/{user_id}', response_model=UserModel)
+@router.get('/{user_id}', response_model=UserModel)
 async def get_user(user_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['users']
@@ -30,7 +30,7 @@ async def get_user(user_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='User not found')
 
 
-@router.post('/users', response_model=UserModel)
+@router.post('/', response_model=UserModel)
 async def create_user(user: CreateUserModel):
     database = await MongoDB.get_db()
     database = database['users']
@@ -44,7 +44,7 @@ async def create_user(user: CreateUserModel):
     return new_user
 
 
-@router.put('/users/{user_id}', response_model=UserModel)
+@router.put('/{user_id}', response_model=UserModel)
 async def update_user(user_id: ObjectIdField, user: UserModel):
     database = await MongoDB.get_db()
     database = database['users']
@@ -55,7 +55,7 @@ async def update_user(user_id: ObjectIdField, user: UserModel):
     raise HTTPException(status_code=404, detail='User not found')
 
 
-@router.delete('/users/{user_id}')
+@router.delete('/{user_id}')
 async def delete_user(user_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['users']

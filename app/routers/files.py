@@ -4,10 +4,10 @@ from pydantic_mongo.fields import ObjectIdField
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/files', tags=['Files'])
 
 
-@router.get('/files', response_model=List[FileModel])
+@router.get('/', response_model=List[FileModel])
 async def get_all_files():
     database = await MongoDB.get_db()
     database = database['files']
@@ -19,7 +19,7 @@ async def get_all_files():
     raise HTTPException(status_code=404, detail='No files found')
 
 
-@router.get('/files/{file_id}', response_model=FileModel)
+@router.get('/{file_id}', response_model=FileModel)
 async def get_file(file_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['files']
@@ -29,7 +29,7 @@ async def get_file(file_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='File not found')
 
 
-@router.post('/files', response_model=FileModel)
+@router.post('/', response_model=FileModel)
 async def create_file(file: CreateFileModel):
     database = await MongoDB.get_db()
     database = database['files']
@@ -38,7 +38,7 @@ async def create_file(file: CreateFileModel):
     return new_file
 
 
-@router.delete('/files/{file_id}')
+@router.delete('/{file_id}')
 async def delete_file(file_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['files']

@@ -6,15 +6,14 @@ from models.UserModel import UserModel
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/notifications', tags=['Notifications'])
 
 
-@router.get('/notifications', response_model=List[NotificationModel])
+@router.get('/', response_model=List[NotificationModel])
 async def get_all_notifications(current_user: UserModel = Depends(get_current_user)):
     database = await MongoDB.get_db()
     database = database['notifications']
     notifications: list[NotificationModel] = []
-    # type: ignore
     async for notification in database.find({'recipient': current_user['_id']}):
         notifications.append(notification)
     if notifications:
@@ -22,7 +21,7 @@ async def get_all_notifications(current_user: UserModel = Depends(get_current_us
     raise HTTPException(status_code=404, detail='No notifications found')
 
 
-@router.get('/notifications/{notification_id}', response_model=NotificationModel)
+@router.get('/{notification_id}', response_model=NotificationModel)
 async def get_notification(notification_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['notifications']
@@ -40,7 +39,7 @@ async def create_notification(notification: CreateNotificationModel):
     return new_notification
 
 
-@router.put('/notifications/{notification_id}', response_model=NotificationModel)
+@router.put('/{notification_id}', response_model=NotificationModel)
 async def update_notification(notification_id: ObjectIdField, notification: NotificationModel):
     database = await MongoDB.get_db()
     database = database['notifications']
@@ -51,7 +50,7 @@ async def update_notification(notification_id: ObjectIdField, notification: Noti
     raise HTTPException(status_code=404, detail='Notification not found')
 
 
-@router.delete('/notifications/{notification_id}')
+@router.delete('/{notification_id}')
 async def delete_notification(notification_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['notifications']

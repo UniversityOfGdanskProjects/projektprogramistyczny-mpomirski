@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field
 from pydantic_mongo.fields import ObjectIdField
 from datetime import datetime
-from bson import Binary
 
 
 class NotificationModel(BaseModel):

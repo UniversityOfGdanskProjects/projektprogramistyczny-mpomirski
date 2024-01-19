@@ -4,10 +4,10 @@ from pydantic_mongo.fields import ObjectIdField
 from typing import List
 from db.mongodb import MongoDB
 
-router = APIRouter()
+router = APIRouter(prefix='/screenshares', tags=['Screenshares'])
 
 
-@router.get('/screenshares', response_model=List[ScreenshareModel])
+@router.get('/', response_model=List[ScreenshareModel])
 async def get_all_screenshares():
     database = await MongoDB.get_db()
     database = database['screenshares']
@@ -19,7 +19,7 @@ async def get_all_screenshares():
     raise HTTPException(status_code=404, detail='No screenshares found')
 
 
-@router.get('/screenshares/{screenshare_id}', response_model=ScreenshareModel)
+@router.get('/{screenshare_id}', response_model=ScreenshareModel)
 async def get_screenshare(screenshare_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['screenshares']
@@ -29,7 +29,7 @@ async def get_screenshare(screenshare_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='Screenshare not found')
 
 
-@router.post('/screenshares', response_model=ScreenshareModel)
+@router.post('/', response_model=ScreenshareModel)
 async def create_screenshare(screenshare: CreateScreenshareModel):
     database = await MongoDB.get_db()
     database = database['screenshares']
@@ -38,7 +38,7 @@ async def create_screenshare(screenshare: CreateScreenshareModel):
     return new_screenshare
 
 
-@router.put('/screenshares/{screenshare_id}', response_model=ScreenshareModel)
+@router.put('/{screenshare_id}', response_model=ScreenshareModel)
 async def update_screenshare(screenshare_id: ObjectIdField, screenshare: ScreenshareModel):
     database = await MongoDB.get_db()
     database = database['screenshares']
@@ -49,7 +49,7 @@ async def update_screenshare(screenshare_id: ObjectIdField, screenshare: Screens
     raise HTTPException(status_code=404, detail='Screenshare not found')
 
 
-@router.delete('/screenshares/{screenshare_id}')
+@router.delete('/{screenshare_id}')
 async def delete_screenshare(screenshare_id: ObjectIdField):
     database = await MongoDB.get_db()
     database = database['screenshares']
