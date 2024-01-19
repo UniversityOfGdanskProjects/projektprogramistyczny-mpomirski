@@ -1,6 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from models.NotificationModel import NotificationModel, CreateNotificationModel
 from pydantic_mongo.fields import ObjectIdField
+from .auth import get_current_user
+from models.UserModel import UserModel
 from typing import List
 from db.mongodb import MongoDB
 
@@ -8,11 +10,12 @@ router = APIRouter()
 
 
 @router.get('/notifications', response_model=List[NotificationModel])
-async def get_all_notifications():
+async def get_all_notifications(current_user: UserModel = Depends(get_current_user)):
     database = await MongoDB.get_db()
     database = database['notifications']
     notifications: list[NotificationModel] = []
-    async for notification in database.find():
+    # type: ignore
+    async for notification in database.find({'recipient': current_user['_id']}):
         notifications.append(notification)
     if notifications:
         return notifications
@@ -29,7 +32,6 @@ async def get_notification(notification_id: ObjectIdField):
     raise HTTPException(status_code=404, detail='Notification not found')
 
 
-@router.post('/notifications', response_model=NotificationModel)
 async def create_notification(notification: CreateNotificationModel):
     database = await MongoDB.get_db()
     database = database['notifications']

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from models.UserModel import UserModel, CreateUserModel
 from pydantic_mongo.fields import ObjectIdField
+from .auth import get_password_hash
 from typing import List
 from db.mongodb import MongoDB
 
@@ -33,6 +34,7 @@ async def get_user(user_id: ObjectIdField):
 async def create_user(user: CreateUserModel):
     database = await MongoDB.get_db()
     database = database['users']
+    user.password = get_password_hash(user.password)
     try:
         result = await database.insert_one(user.model_dump())
     except Exception as e:
