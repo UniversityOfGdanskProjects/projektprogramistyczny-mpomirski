@@ -3,3 +3,7 @@
 
 Check it out at:  
 https://mpomirski.pl/app/2/docs
+  
+Running with docker:  
+Runs on port 3001  
+Pass the ENV variable DATABASE_URI to docker run
