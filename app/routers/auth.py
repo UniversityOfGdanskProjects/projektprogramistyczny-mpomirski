@@ -8,9 +8,10 @@ from passlib.context import CryptContext
 from typing import Annotated
 from jose import JWTError, jwt
 from db.mongodb import MongoDB
+import os
 
 router = APIRouter(prefix='/auth', tags=['Auth'])
-SECRET_KEY = 'b018dbf07f2209c1fc63e140f635ea3b'
+SECRET_KEY = os.environ['SECRET_KEY']
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
